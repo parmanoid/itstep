@@ -8,8 +8,9 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="https://parmanoid.github.io/itstep/" class="nav-link active">Главная</a>
+        <a href="index.html" class="nav-link active">Главная</a>
         <a href="page1.html" class="nav-link">Stylophone</a>
+        <a href="page2.html" class="nav-link">Minecraft Mods</a>
     </nav>
 
     <main class="content">
@@ -58,12 +59,10 @@
             const labelText = document.querySelector('.file-label span');
             if (input.files.length > 0) {
                 labelText.textContent = input.files[0].name;
-                labelText.style.color = '#ff4d73';
-                labelText.style.fontWeight = '500';
+                labelText.classList.add('file-selected');
             } else {
                 labelText.textContent = 'Choose image';
-                labelText.style.color = '#d0d0dc';
-                labelText.style.fontWeight = '500';
+                labelText.classList.remove('file-selected');
             }
         }
 
