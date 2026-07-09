@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +8,7 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="index.html" class="nav-link active">Главная</a>
+        <a href="https://parmanoid.github.io/itstep/" class="nav-link active">Главная</a>
         <a href="page1.html" class="nav-link">Stylophone</a>
     </nav>
 
@@ -22,14 +22,14 @@
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvvIYmsaPdjMFeoYdzzni8-Vg5b_IRVNm_4hLWdhjBWUEQ2WmHUlupqqE&s=10" alt="Content image" />
         </div>
 
-        <p class="disclaimer">Соблюдайте цензуру в чате. Администрация не несёт ответственности за сообщения участников.</p>
+        <p class="disclaimer">Please follow the chat guidelines. The administration is not responsible for user messages.</p>
 
         <div class="upload-zone">
             <label class="file-label">
                 <input type="file" id="imageFile" accept="image/*" />
-                <span>Выбрать изображение</span>
+                <span>Choose image</span>
             </label>
-            <button onclick="uploadToImgBB()" class="btn-primary">Загрузить на ImgBB</button>
+            <button onclick="uploadToImgBB()" class="btn-primary">Upload to ImgBB</button>
             <div id="status"></div>
         </div>
 
@@ -45,7 +45,7 @@
                     data-emit-metadata="0"
                     data-input-position="top"
                     data-theme="dark"
-                    data-lang="ru"
+                    data-lang="en"
                     crossorigin="anonymous"
                     async>
             </script>
@@ -61,7 +61,7 @@
                 labelText.style.color = '#ff4d73';
                 labelText.style.fontWeight = '500';
             } else {
-                labelText.textContent = 'Выбрать изображение';
+                labelText.textContent = 'Choose image';
                 labelText.style.color = '#d0d0dc';
                 labelText.style.fontWeight = '500';
             }
@@ -72,11 +72,11 @@
             const statusDiv = document.getElementById('status');
 
             if (!fileInput.files.length) {
-                statusDiv.innerHTML = `<p class="status-msg error">Файл не выбран</p>`;
+                statusDiv.innerHTML = `<p class="status-msg error">No file selected</p>`;
                 return;
             }
 
-            statusDiv.innerHTML = `<p class="status-msg loading">Загрузка...</p>`;
+            statusDiv.innerHTML = `<p class="status-msg loading">Uploading...</p>`;
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
 
@@ -89,14 +89,14 @@
 
                 if (result.success) {
                     statusDiv.innerHTML = `
-                        <p class="status-msg success">Кликните, чтобы скопировать Markdown:</p>
+                        <p class="status-msg success">Click to copy Markdown:</p>
                         <input type="text" class="url-output" value="![image](${result.data.url})" readonly onclick="this.select(); navigator.clipboard?.writeText(this.value);" />
                     `;
                 } else {
-                    statusDiv.innerHTML = `<p class="status-msg error">Ошибка ImgBB</p>`;
+                    statusDiv.innerHTML = `<p class="status-msg error">ImgBB error</p>`;
                 }
             } catch (err) {
-                statusDiv.innerHTML = `<p class="status-msg error">Ошибка сети</p>`;
+                statusDiv.innerHTML = `<p class="status-msg error">Network error</p>`;
                 console.error(err);
             }
         }
