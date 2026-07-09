@@ -7,20 +7,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div style="padding: 10px; background: #222; text-align: center;">
+        <a href="index.html" style="color: #ff66b2; margin: 0 15px; text-decoration: none; font-weight: bold;">Home</a>
+        <a href="page1.html" style="color: #fff; margin: 0 15px; text-decoration: none;">Stylophone</a>
+    </div>
+
     <h1>I LOVE BIG GICK</h1>
     <h2>><</h2>
     <h1>IM REAL FEMBOY</h1>
     <h2>with big gick</h2>
     <img src="https://i.etsystatic.com/40954321/r/il/db94f8/6092755304/il_fullxfull.6092755304_ft88.jpg" alt="penis" width="500" height="500">
     
-    <!-- Загрузка картинок на ImgBB -->
     <div>
         <input type="file" id="imageFile" accept="image/*">
         <button onclick="uploadToImgBB()">Загрузить на ImgBB</button>
         <div id="status"></div>
     </div>
 
-    <!-- Виджет Giscus -->
     <script src="https://giscus.app/client.js"
             data-repo="parmanoid/comments"
             data-repo-id="R_kgDOTS1egA"
@@ -37,7 +40,6 @@
             async>
     </script>
 
-    <!-- Скрипт ImgBB -->
     <script>
     async function uploadToImgBB() {
         const fileInput = document.getElementById('imageFile');
@@ -79,4 +81,4 @@
     }
     </script>
 </body>
-</html>
+</html> 
