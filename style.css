@@ -1,0 +1,57 @@
+/* Базовый сброс и центровка всего контента на странице */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #121214;
+    color: #ffffff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Универсальные стили для заголовков с плавной пульсацией */
+h1, h2, h3 {
+    margin: 10px 0;
+    line-height: 1.2;
+    animation: pulse 2s ease-in-out infinite alternate;
+}
+
+h1 { font-size: 2.5rem; color: #ff477e; }
+h2 { font-size: 1.8rem; color: #33d1ff; }
+
+/* Адаптивные изображения с эффектом покачивания и ховером */
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: float 4s ease-in-out infinite;
+}
+
+img:hover {
+    transform: scale(1.03);
+}
+
+/* --- Универсальные анимации --- */
+
+/* Плавное покачивание вверх-вниз */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Легкое "дыхание" текста по размеру и яркости */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.95; }
+    100% { transform: scale(1.02); opacity: 1; }
+}
