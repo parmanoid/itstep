@@ -7,14 +7,28 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div style="padding: 10px; background: #222; text-align: center;">
-        <a href="index.html" style="color: #fff; margin: 0 15px; text-decoration: none;">Home</a>
-        <a href="page1.html" style="color: #ff66b2; margin: 0 15px; text-decoration: none; font-weight: bold;">Stylophone</a>
-    </div>
+    <nav class="navbar">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="page1.html" class="nav-link active">Stylophone</a>
+    </nav>
 
-    <div style="text-align: center; margin-top: 50px;">
-        <h1>Stylophone Page 🎹</h1>
-        <p>Контент скоро будет...</p>
-    </div>
+    <main class="content target-page">
+        <h1 class="large-title">Stylophone Page 🎹</h1>
+        <h1>Axel F (Beverly Hills Cop Theme) / Crazy Frog</h1>
+        <h2 class="notes">
+            4, 6, 4, 4, 7, 4, 3, <br>
+            4, 8, 4, 4, 8.5, 8, 6, <br>
+            4, 8, 11, 4, 3, 3, 1, 5, 4
+        </h2>
+        
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/jDAGYfgDqy8" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        </div>
+    </main>
 </body>
 </html>
