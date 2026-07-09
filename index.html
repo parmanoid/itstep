@@ -1,82 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IM FEMBOY</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IT STEP — Unofficial</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <nav class="navbar">
-        <a href="index.html" class="nav-link active">Home</a>
+        <a href="index.html" class="nav-link active">Главная</a>
         <a href="page1.html" class="nav-link">Stylophone</a>
     </nav>
 
     <main class="content">
-        <h1>I LOVE BIG GICK</h1>
-        <h2>&gt;&lt;</h2>
-        <h1>IM REAL FEMBOY</h1>
-        <h2>with big gick</h2>
-        
-        <img src="https://i.etsystatic.com/40954321/r/il/db94f8/6092755304/il_fullxfull.6092755304_ft88.jpg" alt="content image" width="500" height="500">
-        
+        <header class="hero">
+            <h1>ITStep Academy</h1>
+            <p class="subtitle">unofficial · by parmanoid</p>
+        </header>
+
+        <div class="media-box">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvvIYmsaPdjMFeoYdzzni8-Vg5b_IRVNm_4hLWdhjBWUEQ2WmHUlupqqE&s=10" alt="Content image" />
+        </div>
+
+        <p class="disclaimer">Соблюдайте цензуру в чате. Администрация не несёт ответственности за сообщения участников.</p>
+
         <div class="upload-zone">
-            <input type="file" id="imageFile" accept="image/*">
-            <button onclick="uploadToImgBB()">Загрузить на ImgBB</button>
+            <label class="file-label">
+                <input type="file" id="imageFile" accept="image/*" />
+                <span>Выбрать изображение</span>
+            </label>
+            <button onclick="uploadToImgBB()" class="btn-primary">Загрузить на ImgBB</button>
             <div id="status"></div>
         </div>
 
-        <script src="https://giscus.app/client.js"
-                data-repo="parmanoid/comments"
-                data-repo-id="R_kgDOTS1egA"
-                data-category="General"
-                data-category-id="DIC_kwDOTS1egM4DA0E8"
-                data-mapping="pathname"
-                data-strict="0"
-                data-reactions-enabled="1"
-                data-emit-metadata="0"
-                data-input-position="top"
-                data-theme="preferred_color_scheme"
-                data-lang="en"
-                crossorigin="anonymous"
-                async>
-        </script>
+        <div class="comments-wrapper">
+            <script src="https://giscus.app/client.js"
+                    data-repo="parmanoid/comments"
+                    data-repo-id="R_kgDOTS1egA"
+                    data-category="General"
+                    data-category-id="DIC_kwDOTS1egM4DA0E8"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="0"
+                    data-input-position="top"
+                    data-theme="dark"
+                    data-lang="ru"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+        </div>
     </main>
 
     <script>
-    async function uploadToImgBB() {
-        const fileInput = document.getElementById('imageFile');
-        const statusDiv = document.getElementById('status');
-        
-        if (!fileInput.files.length) {
-            statusDiv.innerHTML = "<p>Выбери файл!</p>";
-            return;
-        }
-
-        statusDiv.innerHTML = "<p>Загрузка...</p>";
-        const formData = new FormData();
-        formData.append("image", fileInput.files[0]);
-
-        try {
-            const response = await fetch("https://api.imgbb.com/1/upload?key=120a27bcbb28d3ffd9f03bc4b32bb54f", {
-                method: "POST",
-                body: formData
-            });
-            const result = await response.json();
-
-            if (result.success) {
-                statusDiv.innerHTML = `
-                    <p>Скопируй этот код в поле ввода ниже:</p>
-                    <input type="text" class="url-output" value="![image](${result.data.url})" readonly onclick="this.select()">
-                `;
+        function updateFileName() {
+            const input = document.getElementById('imageFile');
+            const labelText = document.querySelector('.file-label span');
+            if (input.files.length > 0) {
+                labelText.textContent = input.files[0].name;
+                labelText.style.color = '#ff4d73';
+                labelText.style.fontWeight = '500';
             } else {
-                statusDiv.innerHTML = "<p>Ошибка ImgBB.</p>";
+                labelText.textContent = 'Выбрать изображение';
+                labelText.style.color = '#d0d0dc';
+                labelText.style.fontWeight = '500';
             }
-        } catch (err) {
-            statusDiv.innerHTML = "<p>Ошибка сети.</p>";
-            console.error(err);
         }
-    }
+
+        async function uploadToImgBB() {
+            const fileInput = document.getElementById('imageFile');
+            const statusDiv = document.getElementById('status');
+
+            if (!fileInput.files.length) {
+                statusDiv.innerHTML = `<p class="status-msg error">Файл не выбран</p>`;
+                return;
+            }
+
+            statusDiv.innerHTML = `<p class="status-msg loading">Загрузка...</p>`;
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+
+            try {
+                const response = await fetch('https://api.imgbb.com/1/upload?key=120a27bcbb28d3ffd9f03bc4b32bb54f', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    statusDiv.innerHTML = `
+                        <p class="status-msg success">Кликните, чтобы скопировать Markdown:</p>
+                        <input type="text" class="url-output" value="![image](${result.data.url})" readonly onclick="this.select(); navigator.clipboard?.writeText(this.value);" />
+                    `;
+                } else {
+                    statusDiv.innerHTML = `<p class="status-msg error">Ошибка ImgBB</p>`;
+                }
+            } catch (err) {
+                statusDiv.innerHTML = `<p class="status-msg error">Ошибка сети</p>`;
+                console.error(err);
+            }
+        }
+
+        document.getElementById('imageFile').addEventListener('change', updateFileName);
     </script>
 </body>
 </html>
