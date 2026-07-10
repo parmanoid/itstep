@@ -35,13 +35,11 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- Selection --- */
 ::selection {
     background: var(--accent-purple);
     color: #fff;
 }
 
-/* --- Navbar --- */
 .navbar {
     display: flex;
     gap: 2rem;
@@ -94,7 +92,6 @@ body {
     box-shadow: 0 0 20px var(--accent-pink);
 }
 
-/* --- Main Content --- */
 .content {
     max-width: 720px;
     width: 100%;
@@ -106,7 +103,6 @@ body {
     transition: var(--transition);
 }
 
-/* --- Hero --- */
 .hero {
     text-align: center;
     margin-bottom: 2.2rem;
@@ -148,7 +144,6 @@ body {
     -webkit-text-fill-color: var(--text-secondary);
 }
 
-/* --- Media --- */
 .media-box {
     display: flex;
     justify-content: center;
@@ -169,7 +164,6 @@ body {
     border-color: rgba(255, 255, 255, 0.08);
 }
 
-/* --- Disclaimer --- */
 .disclaimer {
     background: rgba(255, 77, 122, 0.04);
     padding: 0.7rem 1.4rem;
@@ -182,7 +176,6 @@ body {
     backdrop-filter: blur(4px);
 }
 
-/* --- Upload Zone --- */
 .upload-zone {
     background: rgba(255, 255, 255, 0.01);
     border-radius: var(--radius-md);
@@ -250,7 +243,6 @@ body {
     transform: translateY(0);
 }
 
-/* --- Status --- */
 #status {
     width: 100%;
 }
@@ -288,7 +280,6 @@ body {
     outline-offset: 2px;
 }
 
-/* --- Notes Card --- */
 .notes-card {
     background: var(--bg-elevated);
     padding: 1.8rem;
@@ -311,7 +302,6 @@ body {
     font-size: 1.2rem;
 }
 
-/* --- Video --- */
 .video-container {
     position: relative;
     padding-bottom: 56.25%;
@@ -330,14 +320,12 @@ body {
     border: 0;
 }
 
-/* --- Comments --- */
 .comments-wrapper {
     margin-top: 2rem;
     padding-top: 2rem;
     border-top: 1px solid var(--border-subtle);
 }
 
-/* --- Responsive --- */
 @media (max-width: 640px) {
     .content {
         padding: 1.8rem 1.2rem;
