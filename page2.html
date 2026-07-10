@@ -20,12 +20,20 @@
         </header>
 
         <div class="upload-zone">
-            <label class="file-label">
-                <input type="file" id="modFile" accept=".jar,.zip,.rar" />
-                <span id="fileLabelText">Choose mod file (.jar, .zip)</span>
-            </label>
-            <button onclick="uploadMod()" class="btn-primary">Upload Mod</button>
-            <div id="status"></div>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+                Upload your mod to Catbox and get a direct link:
+            </p>
+            
+            <!-- Прямая загрузка через iframe -->
+            <iframe src="https://catbox.moe/" 
+                    style="width: 100%; height: 400px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-primary);">
+            </iframe>
+            
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">
+                1. Upload your file on Catbox<br>
+                2. Copy the link it gives you<br>
+                3. Paste it in the comments below
+            </p>
         </div>
 
         <div class="comments-wrapper">
@@ -46,89 +54,5 @@
             </script>
         </div>
     </main>
-
-    <script>
-        document.getElementById('modFile').addEventListener('change', function() {
-            const labelText = document.getElementById('fileLabelText');
-            if (this.files.length > 0) {
-                labelText.textContent = this.files[0].name;
-                labelText.classList.add('file-selected');
-            } else {
-                labelText.textContent = 'Choose mod file (.jar, .zip)';
-                labelText.classList.remove('file-selected');
-            }
-        });
-
-        async function uploadMod() {
-            const fileInput = document.getElementById('modFile');
-            const statusDiv = document.getElementById('status');
-
-            if (!fileInput.files.length) {
-                statusDiv.innerHTML = `<p class="status-msg error">No file selected</p>`;
-                return;
-            }
-
-            statusDiv.innerHTML = `<p class="status-msg loading">Uploading mod to host...</p>`;
-            
-            const formData = new FormData();
-            formData.append('reqtype', 'fileupload');
-            formData.append('fileToUpload', fileInput.files[0]);
-
-            try {
-                // Альтернативный способ загрузки без CORS-прокси
-                // Используем прямой запрос через iframe или другой сервис
-                
-                // Вариант 1: Используем другой прокси, который поддерживает multipart
-                const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                const targetUrl = 'https://catbox.moe/user/api.php';
-                
-                // Для catbox используем прямой запрос с form-data (работает в современных браузерах)
-                const response = await fetch(targetUrl, {
-                    method: 'POST',
-                    body: formData,
-                    mode: 'no-cors' // Пытаемся отправить без CORS
-                });
-
-                // При mode: 'no-cors' мы не можем прочитать ответ
-                // Поэтому используем альтернативный подход
-                throw new Error('Catbox требует CORS-прокси, но corsproxy.io не поддерживает файлы');
-                
-            } catch (err) {
-                // Если не работает - пробуем через другой прокси
-                try {
-                    statusDiv.innerHTML = `<p class="status-msg loading">Trying alternative method...</p>`;
-                    
-                    // Используем другой прокси-сервис
-                    const formData2 = new FormData();
-                    formData2.append('file', fileInput.files[0]);
-                    
-                    const response2 = await fetch('https://cors-anywhere.herokuapp.com/https://catbox.moe/user/api.php', {
-                        method: 'POST',
-                        body: formData2
-                    });
-                    
-                    if (response2.ok) {
-                        const fileUrl = await response2.text();
-                        statusDiv.innerHTML = `
-                            <p class="status-msg success">Done! Copy link & paste to comments:</p>
-                            <input type="text" class="url-output" value="${fileUrl.trim()}" readonly onclick="this.select(); navigator.clipboard?.writeText(this.value);" />
-                        `;
-                    } else {
-                        statusDiv.innerHTML = `<p class="status-msg error">Upload failed. Try using direct upload link: <a href="https://catbox.moe/" target="_blank">catbox.moe</a></p>`;
-                    }
-                } catch (err2) {
-                    statusDiv.innerHTML = `
-                        <p class="status-msg error">Upload failed. Please use alternative:</p>
-                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">
-                            1. Go to <a href="https://catbox.moe/" target="_blank" style="color: var(--accent-purple);">catbox.moe</a><br>
-                            2. Upload your .jar file<br>
-                            3. Copy the link and paste it in the comments
-                        </p>
-                    `;
-                    console.error(err2);
-                }
-            }
-        }
-    </script>
 </body>
 </html>
