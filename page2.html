@@ -75,23 +75,58 @@
             formData.append('fileToUpload', fileInput.files[0]);
 
             try {
-                const response = await fetch('https://corsproxy.io/?' + encodeURIComponent('https://catbox.moe/user/api.php'), {
+                // Альтернативный способ загрузки без CORS-прокси
+                // Используем прямой запрос через iframe или другой сервис
+                
+                // Вариант 1: Используем другой прокси, который поддерживает multipart
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const targetUrl = 'https://catbox.moe/user/api.php';
+                
+                // Для catbox используем прямой запрос с form-data (работает в современных браузерах)
+                const response = await fetch(targetUrl, {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    mode: 'no-cors' // Пытаемся отправить без CORS
                 });
 
-                if (response.ok) {
-                    const fileUrl = await response.text();
-                    statusDiv.innerHTML = `
-                        <p class="status-msg success">Done! Copy link & paste to comments:</p>
-                        <input type="text" class="url-output" value="${fileUrl.trim()}" readonly onclick="this.select(); navigator.clipboard?.writeText(this.value);" />
-                    `;
-                } else {
-                    statusDiv.innerHTML = `<p class="status-msg error">Upload failed. Try smaller file.</p>`;
-                }
+                // При mode: 'no-cors' мы не можем прочитать ответ
+                // Поэтому используем альтернативный подход
+                throw new Error('Catbox требует CORS-прокси, но corsproxy.io не поддерживает файлы');
+                
             } catch (err) {
-                statusDiv.innerHTML = `<p class="status-msg error">Network error</p>`;
-                console.error(err);
+                // Если не работает - пробуем через другой прокси
+                try {
+                    statusDiv.innerHTML = `<p class="status-msg loading">Trying alternative method...</p>`;
+                    
+                    // Используем другой прокси-сервис
+                    const formData2 = new FormData();
+                    formData2.append('file', fileInput.files[0]);
+                    
+                    const response2 = await fetch('https://cors-anywhere.herokuapp.com/https://catbox.moe/user/api.php', {
+                        method: 'POST',
+                        body: formData2
+                    });
+                    
+                    if (response2.ok) {
+                        const fileUrl = await response2.text();
+                        statusDiv.innerHTML = `
+                            <p class="status-msg success">Done! Copy link & paste to comments:</p>
+                            <input type="text" class="url-output" value="${fileUrl.trim()}" readonly onclick="this.select(); navigator.clipboard?.writeText(this.value);" />
+                        `;
+                    } else {
+                        statusDiv.innerHTML = `<p class="status-msg error">Upload failed. Try using direct upload link: <a href="https://catbox.moe/" target="_blank">catbox.moe</a></p>`;
+                    }
+                } catch (err2) {
+                    statusDiv.innerHTML = `
+                        <p class="status-msg error">Upload failed. Please use alternative:</p>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                            1. Go to <a href="https://catbox.moe/" target="_blank" style="color: var(--accent-purple);">catbox.moe</a><br>
+                            2. Upload your .jar file<br>
+                            3. Copy the link and paste it in the comments
+                        </p>
+                    `;
+                    console.error(err2);
+                }
             }
         }
     </script>
